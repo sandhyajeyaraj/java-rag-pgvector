@@ -141,5 +141,5 @@ DELETE /api/v1/policies/{id}
 | `spring.ai.openai.chat.options.model` | `gpt-4o` |
 | `spring.ai.ollama.embedding.options.model` | `nomic-embed-text` |
 | `spring.ai.vectorstore.pgvector.dimensions` | `768` |
-| `pdf.upload.directory` | `./uploads` |
+| `pdf.upload.directory` | `./uploadFile` |
 | `spring.kafka.bootstrap-servers` | `localhost:9092` |

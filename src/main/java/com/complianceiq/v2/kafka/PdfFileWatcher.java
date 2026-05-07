@@ -25,7 +25,7 @@ public class PdfFileWatcher {
     private static final Logger log = LoggerFactory.getLogger(PdfFileWatcher.class);
     private static final long DEBOUNCE_MS = 1000;
 
-    @Value("${pdf.upload.directory:./uploads}")
+    @Value("${pdf.upload.directory:./uploadFile}")
     private String uploadDirectory;
 
     private final KafkaTemplate<String, PdfUploadEvent> kafkaTemplate;

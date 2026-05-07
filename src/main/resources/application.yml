@@ -59,7 +59,7 @@ spring:
 
 pdf:
   upload:
-    directory: ./uploads
+    directory: ./uploadFile
 
 server:
   port: 8080
