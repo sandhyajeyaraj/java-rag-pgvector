@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: compliance-iq
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/complianceiq
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  ai:
+    openai:
+      api-key: API_KEY_HERE
+      chat:
+        options:
+          model: gpt-4o
+          temperature: 0.2
+      embedding:
+        enabled: false
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text   # local embedding model, no API key needed
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 768             # nomic-embed-text produces 768-dim vectors
+        distance-type: COSINE_DISTANCE
+        index-type: HNSW
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: pdf-ingestion-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.complianceiq.v2.kafka"
+        spring.json.value.default.type: "com.complianceiq.v2.kafka.PdfUploadEvent"
+
+pdf:
+  upload:
+    directory: ./uploads
+
+server:
+  port: 8080
+
+anthropic:
+  api-key: API_KEY_HERE
+
+ollama:
+  base-url: http://localhost:11434
+  model: llama3.2
+
+logging:
+  level:
+    com.complianceiq: INFO
+    org.springframework.ai: WARN
